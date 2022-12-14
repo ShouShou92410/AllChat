@@ -1,3 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config({ path: './config/.env.development' });
+
+console.log(process.env.NODE_ENV);
+console.log(process.env.DETA_PROJECT_KEY);
+console.log(process.env.PORT);
+
 import express from 'express';
 import WebSocket, { WebSocketServer, RawData } from 'ws';
 import { IncomingMessage } from 'http';
@@ -7,7 +14,7 @@ import { Message, addMessage } from './database/db.js';
 
 //Express
 const app = express();
-const port = 3000;
+const port = parseInt(process.env.PORT);
 
 app.use('/chat', chatRouter);
 const server = app.listen(port, () => {
