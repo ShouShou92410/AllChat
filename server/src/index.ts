@@ -2,6 +2,7 @@ import express from 'express';
 import WebSocket, { WebSocketServer, RawData } from 'ws';
 import { IncomingMessage } from 'http';
 import chatRouter from './routes/chat.js';
+import { addMessage } from './database/db.js';
 
 //Express
 const app = express();
@@ -31,6 +32,8 @@ wss.on('connection', (ws: ExtWebSocket, req: IncomingMessage) => {
 	ws.on('message', (data: RawData) => {
 		const jsonData = JSON.parse(data.toString());
 		console.log(`Client${ws.id}: ${jsonData.data}`);
+
+		addMessage(`Client${ws.id}`, jsonData.data);
 
 		wss.clients.forEach((client: WebSocket) => {
 			if (client.readyState === WebSocket.OPEN) {
