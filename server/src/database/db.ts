@@ -1,4 +1,12 @@
-const chatLog = [
+import { RawData } from 'ws';
+
+interface Message {
+	timestamp: number;
+	from: string;
+	message: string;
+}
+
+const chatLog: Message[] = [
 	{
 		timestamp: 1670994005068,
 		from: 'green',
@@ -46,22 +54,20 @@ const chatLog = [
 	},
 ];
 
-const addMessage = (from: string, message: string) => {
-	const newMessage = {
-		timestamp: Date.now(),
-		from: from,
-		message: message,
-	};
+const addMessage = (from: string, data: RawData): Message => {
+	const newMessage: Message = JSON.parse(data.toString());
+	newMessage.from = from;
+	newMessage.timestamp = Date.now();
 
 	chatLog.push(newMessage);
 	console.log('New message added: ', newMessage);
+
+	return newMessage;
 };
 
-const getMessages = (timestamp: number, count: number) => {
-	return chatLog
-		.filter((item) => item.timestamp <= timestamp)
-		.slice(-count)
-		.map((item) => ({ ...item, timestamp: new Date(item.timestamp) }));
+const getMessages = (timestamp: number, count: number): Message[] => {
+	return chatLog.filter((item) => item.timestamp <= timestamp).slice(-count);
+	// .map((item) => ({ ...item, timestamp: new Date(item.timestamp) }));
 };
 
-export { addMessage, getMessages };
+export { Message, addMessage, getMessages };
