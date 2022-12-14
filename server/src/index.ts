@@ -1,18 +1,13 @@
 import express from 'express';
 import WebSocket, { WebSocketServer, RawData } from 'ws';
 import { IncomingMessage } from 'http';
+import chatRouter from './routes/chat.js';
 
 //Express
 const app = express();
-const router = express.Router();
 const port = 3000;
 
-// GET /info/status
-router.get('/status', (req, res) => {
-	res.json({ status: 'Server is running.' });
-});
-
-app.use('/info', router);
+app.use('/chat', chatRouter);
 const server = app.listen(port, () => {
 	console.log(`Express server running on port ${port}.`);
 });
