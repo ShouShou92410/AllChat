@@ -1,9 +1,6 @@
-import dotenv from 'dotenv';
-dotenv.config({ path: './config/.env.development' });
-
-console.log(process.env.NODE_ENV);
-console.log(process.env.DETA_PROJECT_KEY);
-console.log(process.env.PORT);
+console.log(`NODE_ENV=${process.env.NODE_ENV}`);
+console.log(`DETA_PROJECT_KEY=${process.env.DETA_PROJECT_KEY}`);
+console.log(`PORT=${process.env.PORT}`);
 
 import express from 'express';
 import WebSocket, { WebSocketServer, RawData } from 'ws';
@@ -11,11 +8,13 @@ import { IncomingMessage } from 'http';
 import { uniqueNamesGenerator, adjectives, colors, animals, Config } from 'unique-names-generator';
 import chatRouter from './routes/chat.js';
 import { Message, addMessage } from './database/db.js';
+import { createMessage } from './services/database.js';
 
 //Express
 const app = express();
 const port = parseInt(process.env.PORT);
 
+app.use(express.json());
 app.use('/chat', chatRouter);
 const server = app.listen(port, () => {
 	console.log(`Express server running on port ${port}.`);
@@ -50,7 +49,7 @@ wss.on('connection', (ws: ClientWebSocket, req: IncomingMessage) => {
 		console.log(`${ws.name} has disconnected.`);
 	});
 
-	ws.on('message', (data: RawData) => {
+	ws.on('message', async (data: RawData) => {
 		// Client is on message cooldown
 		const messageCooldown = Date.now() - ws.lastMessageTimestamp;
 		if (messageCooldown < CHAT_CD) {
@@ -59,7 +58,7 @@ wss.on('connection', (ws: ClientWebSocket, req: IncomingMessage) => {
 		}
 
 		// Process client message
-		const clientMessage = addMessage(ws.name, data);
+		const clientMessage = await createMessage(ws.ip, JSON.parse(data.toString()).message);
 		ws.lastMessageTimestamp = clientMessage.timestamp;
 
 		wss.clients.forEach((client: WebSocket) => {
