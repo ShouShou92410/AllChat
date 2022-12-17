@@ -16,5 +16,7 @@ const server = app.listen(port, () => {
 	console.log(`Express server running on port ${port}.`);
 });
 
+// server.maxConnections = 1;
+
 //WebSocket
 WebSocketServerSingleton.getInstance({ server });

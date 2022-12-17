@@ -18,6 +18,7 @@ export interface OutboundPayload {
 
 export const WebSocketSetup = (ws: WebSocket, req: IncomingMessage) => {
 	// ClientWebSocket init
+	ws.isAlive = true;
 	ws.lastMessageTimestamp = 0;
 	ws.ip = req.socket.remoteAddress;
 
@@ -30,6 +31,7 @@ export const WebSocketSetup = (ws: WebSocket, req: IncomingMessage) => {
 
 	ws.on('close', onClose);
 	ws.on('message', onMessage);
+	ws.on('pong', onPong);
 
 	console.log(`${ws.name} has connected.`);
 };
@@ -47,11 +49,20 @@ async function onMessage(this: WebSocket, data: RawData) {
 	}
 
 	// Process client message
-	const payload: InboundPayload = JSON.parse(data.toString());
-	const clientMessage = await createMessage(this.ip, payload.message);
+	const inPayload: InboundPayload = JSON.parse(data.toString());
+	const clientMessage = await createMessage(this.ip, inPayload.message);
 	this.lastMessageTimestamp = clientMessage.timestamp;
 
-	WebSocketServerSingleton.getInstance().broadcast(this.name, clientMessage);
+	const outPayload: OutboundPayload = {
+		timestamp: clientMessage.timestamp,
+		from: this.name,
+		message: clientMessage.message,
+	};
+	WebSocketServerSingleton.getInstance().broadcast(outPayload);
+}
+
+function onPong(this: WebSocket) {
+	this.isAlive = true;
 }
 
 declare module 'ws' {
@@ -59,6 +70,6 @@ declare module 'ws' {
 		name: string;
 		lastMessageTimestamp: number;
 		ip: string;
-		test: () => void;
+		isAlive: boolean;
 	}
 }

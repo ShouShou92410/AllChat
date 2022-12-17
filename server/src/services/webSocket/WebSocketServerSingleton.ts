@@ -1,15 +1,28 @@
 import { IncomingMessage } from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
-import { Message } from '../../models/Message.js';
 import { OutboundPayload, WebSocketSetup } from './WebSocketClient.js';
+
+const DEAD_CLIENT_CLEANER_INTERVAL = 30000; //30sec
 
 export class WebSocketServerSingleton extends WebSocketServer {
 	static #instance: WebSocketServerSingleton;
+	#deadClientCleaner: NodeJS.Timer;
 
 	constructor(...args: any[]) {
 		super(...args);
 
 		this.on('connection', this.#onConnection);
+		this.on('close', this.#onClose);
+
+		this.#deadClientCleaner = setInterval(() => {
+			this.clients.forEach((client: WebSocket) => {
+				if (!client.isAlive) return client.terminate();
+
+				client.isAlive = false;
+				client.ping();
+			});
+			console.log(this.clients.size);
+		}, DEAD_CLIENT_CLEANER_INTERVAL);
 	}
 
 	static getInstance(...args: any[]) {
@@ -20,14 +33,9 @@ export class WebSocketServerSingleton extends WebSocketServer {
 		return this.#instance;
 	}
 
-	broadcast(from: string, clientMessage: Message) {
-		const payload: OutboundPayload = {
-			timestamp: clientMessage.timestamp,
-			from: from,
-			message: clientMessage.message,
-		};
-		WebSocketServerSingleton.getInstance().clients.forEach((client: WebSocket) => {
-			if (client.readyState === WebSocket.OPEN) {
+	broadcast(payload: OutboundPayload) {
+		this.clients.forEach((client: WebSocket) => {
+			if (payload.from !== client.name && client.readyState === WebSocket.OPEN) {
 				client.send(JSON.stringify(payload));
 			}
 		});
@@ -35,5 +43,9 @@ export class WebSocketServerSingleton extends WebSocketServer {
 
 	#onConnection(ws: WebSocket, req: IncomingMessage) {
 		WebSocketSetup(ws, req);
+	}
+
+	#onClose(this: WebSocketServerSingleton) {
+		clearInterval(this.#deadClientCleaner);
 	}
 }
