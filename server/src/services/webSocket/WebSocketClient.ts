@@ -1,5 +1,6 @@
 import { IncomingMessage } from 'http';
 import { RawData, WebSocket } from 'ws';
+import crypto from 'crypto';
 import { uniqueNamesGenerator, adjectives, colors, animals, Config } from 'unique-names-generator';
 import { createMessage } from '../database.js';
 import { WebSocketServerSingleton } from './WebSocketServerSingleton.js';
@@ -21,11 +22,12 @@ export const WebSocketSetup = (ws: WebSocket, req: IncomingMessage) => {
 	ws.isAlive = true;
 	ws.lastMessageTimestamp = 0;
 	ws.ip = req.socket.remoteAddress;
+	ws.salt = crypto.randomBytes(16).toString('base64');
 
 	const config: Config = {
 		dictionaries: [adjectives, colors, animals],
 		separator: ' ',
-		seed: ws.ip,
+		seed: `${ws.ip}${ws.salt}`,
 	};
 	ws.name = uniqueNamesGenerator(config);
 
@@ -70,6 +72,7 @@ declare module 'ws' {
 		name: string;
 		lastMessageTimestamp: number;
 		ip: string;
+		salt: string;
 		isAlive: boolean;
 	}
 }
