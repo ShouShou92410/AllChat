@@ -2,7 +2,7 @@ import { IncomingMessage } from 'http';
 import { RawData, WebSocket } from 'ws';
 import crypto from 'crypto';
 import { uniqueNamesGenerator, adjectives, colors, animals, Config } from 'unique-names-generator';
-import { createMessage } from '../database.js';
+import { createMessage, putClient, getClient } from '../database.js';
 import { WebSocketServerSingleton } from './WebSocketServerSingleton.js';
 
 const CHAT_CD = 10000; //10 sec
@@ -17,12 +17,19 @@ export interface OutboundPayload {
 	message: string;
 }
 
-export const WebSocketSetup = (ws: WebSocket, req: IncomingMessage) => {
-	// ClientWebSocket init
+export const WebSocketSetup = async (ws: WebSocket, req: IncomingMessage) => {
 	ws.isAlive = true;
 	ws.lastMessageTimestamp = 0;
 	ws.ip = req.socket.remoteAddress;
-	ws.salt = crypto.randomBytes(16).toString('base64');
+
+	// Check if client exists in DB
+	const client = await getClient(ws.ip);
+	if (!client) {
+		ws.salt = crypto.randomBytes(16).toString('base64');
+		await putClient(ws.ip, ws.salt);
+	} else {
+		ws.salt = client.salt;
+	}
 
 	const config: Config = {
 		dictionaries: [adjectives, colors, animals],
@@ -38,7 +45,8 @@ export const WebSocketSetup = (ws: WebSocket, req: IncomingMessage) => {
 	console.log(`${ws.name} has connected.`);
 };
 
-function onClose(this: WebSocket) {
+async function onClose(this: WebSocket) {
+	await putClient(this.ip, this.salt);
 	console.log(`${this.name} has disconnected.`);
 }
 

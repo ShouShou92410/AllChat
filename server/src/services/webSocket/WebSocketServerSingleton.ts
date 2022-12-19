@@ -41,8 +41,8 @@ export class WebSocketServerSingleton extends WebSocketServer {
 		});
 	}
 
-	#onConnection(ws: WebSocket, req: IncomingMessage) {
-		WebSocketSetup(ws, req);
+	async #onConnection(ws: WebSocket, req: IncomingMessage) {
+		await WebSocketSetup(ws, req);
 	}
 
 	#onClose(this: WebSocketServerSingleton) {
