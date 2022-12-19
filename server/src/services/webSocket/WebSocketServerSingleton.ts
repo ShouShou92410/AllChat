@@ -2,6 +2,7 @@ import { IncomingMessage } from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
 import { OutboundPayload, WebSocketSetup } from './WebSocketClient.js';
 
+export const MAX_WEBSOCKET_CONNECTION = 10; //10 clients at once
 const DEAD_CLIENT_CLEANER_INTERVAL = 30000; //30sec
 
 export class WebSocketServerSingleton extends WebSocketServer {

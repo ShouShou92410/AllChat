@@ -4,7 +4,10 @@ console.log(`PORT=${process.env.PORT}`);
 
 import express from 'express';
 import chatRouter from './routes/chat.js';
-import { WebSocketServerSingleton } from './services/webSocket/WebSocketServerSingleton.js';
+import {
+	WebSocketServerSingleton,
+	MAX_WEBSOCKET_CONNECTION,
+} from './services/webSocket/WebSocketServerSingleton.js';
 
 //Express
 const app = express();
@@ -18,7 +21,20 @@ const server = app.listen(port, () => {
 
 // server.maxConnections = 1;
 
-server.on('upgrade', async (req, socket, head) => {
+server.on('upgrade', async (req, socket) => {
+	// If server already has too many connections
+	if (WebSocketServerSingleton.getInstance().clients.size >= MAX_WEBSOCKET_CONNECTION) {
+		socket.write(
+			'HTTP/1.1 503 Service Unavailable\r\n' +
+				'Upgrade: WebSocket\r\n' +
+				'Connection: Upgrade\r\n' +
+				'\r\n'
+		);
+		socket.destroy();
+		return;
+	}
+
+	// If already connected
 	let alreadyConnected = false;
 	for (const client of WebSocketServerSingleton.getInstance().clients) {
 		if (client.ip === req.socket.remoteAddress) {
