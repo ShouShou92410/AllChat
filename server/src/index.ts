@@ -18,5 +18,26 @@ const server = app.listen(port, () => {
 
 // server.maxConnections = 1;
 
+server.on('upgrade', async (req, socket, head) => {
+	let alreadyConnected = false;
+	for (const client of WebSocketServerSingleton.getInstance().clients) {
+		if (client.ip === req.socket.remoteAddress) {
+			alreadyConnected = true;
+			break;
+		}
+	}
+
+	if (alreadyConnected) {
+		socket.write(
+			'HTTP/1.1 409 Conflict\r\n' +
+				'Upgrade: WebSocket\r\n' +
+				'Connection: Upgrade\r\n' +
+				'\r\n'
+		);
+		socket.destroy();
+		return;
+	}
+});
+
 //WebSocket
 WebSocketServerSingleton.getInstance({ server });
