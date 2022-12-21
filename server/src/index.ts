@@ -3,7 +3,7 @@ console.log(`DETA_PROJECT_KEY=${process.env.DETA_PROJECT_KEY}`);
 console.log(`PORT=${process.env.PORT}`);
 
 import express from 'express';
-import chatRouter from './routes/chat.js';
+import messageRouter from './routes/message.js';
 import {
 	WebSocketServerSingleton,
 	MAX_WEBSOCKET_CONNECTION,
@@ -14,7 +14,7 @@ const app = express();
 const port = parseInt(process.env.PORT);
 
 app.use(express.json());
-app.use('/chat', chatRouter);
+app.use('/message', messageRouter);
 const server = app.listen(port, () => {
 	console.log(`Express server running on port ${port}.`);
 });

@@ -2,7 +2,7 @@ import { IncomingMessage } from 'http';
 import { RawData, WebSocket } from 'ws';
 import crypto from 'crypto';
 import { uniqueNamesGenerator, adjectives, colors, animals, Config } from 'unique-names-generator';
-import { createMessage, putClient, getClient } from '../database.js';
+import { putMessage, putClient, getClient } from '../deta/database.js';
 import { WebSocketServerSingleton } from './WebSocketServerSingleton.js';
 
 const CHAT_CD = 10000; //10 sec
@@ -60,7 +60,7 @@ async function onMessage(this: WebSocket, data: RawData) {
 
 	// Process client message
 	const inPayload: InboundPayload = JSON.parse(data.toString());
-	const clientMessage = await createMessage(this.ip, inPayload.message);
+	const clientMessage = await putMessage(this.name, inPayload.message);
 	this.lastMessageTimestamp = clientMessage.timestamp;
 
 	const outPayload: OutboundPayload = {

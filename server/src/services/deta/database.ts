@@ -1,15 +1,17 @@
 import { Deta } from 'deta';
-import { Client } from '../models/Client.js';
-import { Message } from '../models/Message.js';
+import { Client } from './models/Client.js';
+import { Message } from './models/Message.js';
 
 const deta = Deta(process.env.DETA_PROJECT_KEY);
 const messageDB = deta.Base('Message');
 const clientDB = deta.Base('Client');
 
-const createMessage = async (ip: string, message: string): Promise<Message> => {
+const putMessage = async (from: string, message: string): Promise<Message> => {
+	const now = Date.now();
 	const newMessage: Message = {
-		timestamp: Date.now(),
-		ip: ip,
+		key: `${Number.MAX_SAFE_INTEGER - now}`,
+		timestamp: now,
+		from: from,
 		message: message,
 	};
 
@@ -19,6 +21,9 @@ const createMessage = async (ip: string, message: string): Promise<Message> => {
 
 	return result;
 };
+
+const fetchMessage = async (limit: number, last: string) =>
+	await messageDB.fetch(null, { limit: limit, last: last });
 
 const putClient = async (ip: string, salt: string): Promise<Client> => {
 	const newClient: Client = {
@@ -42,4 +47,4 @@ const getClient = async (ip: string): Promise<Client> => {
 	return result;
 };
 
-export { createMessage, putClient, getClient };
+export { putMessage, fetchMessage, putClient, getClient };
