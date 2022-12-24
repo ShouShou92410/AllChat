@@ -2,7 +2,7 @@ import styles from './(styles)/styles.module.css';
 
 export default function Page() {
 	return (
-		<main>
+		<main className="w-1/2 m-auto">
 			<List>
 				<MessageItem />
 				<MessageItem />
@@ -15,14 +15,14 @@ export default function Page() {
 }
 
 const List = ({ children }) => {
-	return <ul>{children}</ul>;
+	return <div className="flex flex-col gap-y-10 ">{children}</div>;
 };
 
 const MessageItem = () => {
 	const date = new Date();
 	return (
-		<div className="flex flex-row dark:text-slate-300">
-			<img className="w-16 h-16" alt="" />
+		<div className="flex flex-row gap-x-3 dark:text-slate-300">
+			<img className="w-16 h-16 rounded-full" src="pp.jpg" alt="" />
 			<div>
 				<p className="text-sm">
 					<span className="text-xl font-semibold pr-2 dark:text-slate-100">User123</span>
