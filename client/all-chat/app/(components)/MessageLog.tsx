@@ -2,10 +2,11 @@
 
 const MessageLog = ({ children }) => {
 	const handleScroll = (e) => {
-		console.log(e.target.scrollTop);
-		if (e.target.scrollTop === 0) {
+		const scrollPosition = e.target.scrollHeight + e.target.scrollTop - e.target.clientHeight; // Because of flex-col-reverse, scrollTop is negative
+
+		if (scrollPosition === 0) {
 			console.log('fetech');
-			// e.target.scrollTop = 300;
+			e.target.scrollTop = 1000 - e.target.scrollHeight;
 		}
 	};
 

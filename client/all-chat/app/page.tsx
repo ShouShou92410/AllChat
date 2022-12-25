@@ -22,6 +22,22 @@ export default function Page() {
 				<MessageItem />
 				<MessageItem />
 				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
 			</MessageLog>
 
 			<MessageInput />
