@@ -1,24 +1,36 @@
 import MessageInput from './(components)/MessageInput';
+import MessageLog from './(components)/MessageLog';
 import styles from './(styles)/styles.module.css';
 
 export default function Page() {
 	return (
 		<main className="w-1/2 m-auto">
-			<List>
+			<MessageLog>
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
+				<MessageItem />
 				<MessageItem />
 				<MessageItem />
 				<MessageItem />
 				<MessageItem />
 				<MessageItem />
 				<MessageInput />
-			</List>
+			</MessageLog>
 		</main>
 	);
 }
-
-const List = ({ children }) => {
-	return <div className="flex flex-col gap-y-10 ">{children}</div>;
-};
 
 const MessageItem = () => {
 	const date = new Date();
