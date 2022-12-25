@@ -4,7 +4,7 @@ import styles from './(styles)/styles.module.css';
 
 export default function Page() {
 	return (
-		<main className="w-3/5 m-auto px-3 bg-slate-100 dark:bg-slate-800">
+		<main className="flex flex-col justify-end min-h-screen max-h-screen w-3/5 m-auto px-3 bg-slate-100 dark:bg-slate-800">
 			<MessageLog>
 				<MessageItem />
 				<MessageItem />
@@ -22,12 +22,9 @@ export default function Page() {
 				<MessageItem />
 				<MessageItem />
 				<MessageItem />
-				<MessageItem />
-				<MessageItem />
-				<MessageItem />
-				<MessageItem />
-				<MessageInput />
 			</MessageLog>
+
+			<MessageInput />
 		</main>
 	);
 }
@@ -35,7 +32,7 @@ export default function Page() {
 const MessageItem = () => {
 	const date = new Date();
 	return (
-		<div className="flex flex-row gap-x-3 dark:text-slate-300">
+		<div className="flex flex-row gap-x-3 pr-5 dark:text-slate-300">
 			<img className="w-16 h-16 rounded-full" src="pp.jpg" alt="" />
 			<div>
 				<p className="text-sm">

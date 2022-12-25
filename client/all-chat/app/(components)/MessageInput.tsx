@@ -21,7 +21,7 @@ const MessageInput = () => {
 	};
 
 	return (
-		<form ref={formElement} onSubmit={handleSubmit} className="rounded-lg">
+		<form ref={formElement} onSubmit={handleSubmit} className="rounded-lg mr-3 mb-2">
 			<textarea
 				className="text-lg p-2 outline-none resize-none w-full rounded-lg bg-slate-300 dark:bg-slate-700 dark:text-slate-300"
 				rows={(messageValue.match(/\n/g) || []).length + 1}

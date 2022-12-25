@@ -2,6 +2,7 @@
 
 const MessageLog = ({ children }) => {
 	const handleScroll = (e) => {
+		console.log(e.target.scrollTop);
 		if (e.target.scrollTop === 0) {
 			console.log('fetech');
 			// e.target.scrollTop = 300;
@@ -10,7 +11,7 @@ const MessageLog = ({ children }) => {
 
 	return (
 		<div
-			className="flex flex-col gap-y-10 min-h-screen max-h-screen p-3 overflow-auto"
+			className="flex flex-col-reverse gap-y-10 py-5 overflow-y-auto"
 			onScroll={handleScroll}
 		>
 			{children}
