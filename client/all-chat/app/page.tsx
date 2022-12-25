@@ -1,3 +1,4 @@
+import MessageInput from './(components)/MessageInput';
 import styles from './(styles)/styles.module.css';
 
 export default function Page() {
@@ -9,6 +10,7 @@ export default function Page() {
 				<MessageItem />
 				<MessageItem />
 				<MessageItem />
+				<MessageInput />
 			</List>
 		</main>
 	);
