@@ -1,6 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+	::-webkit-scrollbar {
+		@apply w-1.5 h-1.5;
+	}
+	::-webkit-scrollbar-track {
+		@apply bg-slate-300 dark:bg-slate-700 rounded-md;
+	}
+	::-webkit-scrollbar-thumb {
+		@apply bg-slate-400 dark:bg-slate-900 rounded-md;
+	}
+}
+
 /* 
 :root {
 	--max-width: 1100px;
