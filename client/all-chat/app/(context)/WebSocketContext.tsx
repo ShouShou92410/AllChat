@@ -35,8 +35,8 @@ const WebsocketProvider = ({ children }: IProps) => {
 			setIsConnected(false);
 		};
 		socket.onmessage = (e) => {
-			setData(e.data);
-			console.log(e.data);
+			setData(JSON.parse(e.data));
+			console.log(JSON.parse(e.data));
 		};
 
 		ws.current = socket;
