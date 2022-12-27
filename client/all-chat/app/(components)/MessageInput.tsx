@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
+import { WebSocketContext } from '../(context)/WebSocketContext';
 
 const MessageInput = () => {
 	// Form
@@ -8,7 +9,7 @@ const MessageInput = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log('submit', messageValue);
-		ws.current?.send(JSON.stringify({ message: messageValue }));
+		send!(JSON.stringify({ message: messageValue }));
 	};
 
 	// Textarea
@@ -22,29 +23,7 @@ const MessageInput = () => {
 	};
 
 	// WS
-	const ws = useRef<WebSocket | null>(null);
-	useEffect(() => {
-		const socket = new WebSocket('ws://localhost:3001');
-
-		socket.onopen = (e) => {
-			console.log('opened', e);
-		};
-		socket.onclose = (e) => {
-			console.log('closed', e);
-		};
-		socket.onerror = (e) => {
-			console.error('error', e);
-		};
-		socket.onmessage = (e) => {
-			console.log('message', e.data);
-		};
-
-		ws.current = socket;
-
-		return () => {
-			socket.close();
-		};
-	}, []);
+	const { isConnected, data, send } = useContext(WebSocketContext);
 
 	return (
 		<form ref={formElement} onSubmit={handleSubmit} className="rounded-lg mr-3 mb-2">

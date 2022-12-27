@@ -1,6 +1,9 @@
 'use client';
 
-const MessageLog = ({ children }) => {
+interface IProps {
+	children: React.ReactNode;
+}
+const MessageLog = ({ children }: IProps) => {
 	const handleScroll = (e) => {
 		const scrollPosition = e.target.scrollHeight + e.target.scrollTop - e.target.clientHeight; // Because of flex-col-reverse, scrollTop is negative
 
