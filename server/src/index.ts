@@ -3,6 +3,7 @@ console.log(`DETA_PROJECT_KEY=${process.env.DETA_PROJECT_KEY}`);
 console.log(`PORT=${process.env.PORT}`);
 
 import express from 'express';
+import cors from 'cors';
 import messageRouter from './routes/message.js';
 import {
 	WebSocketServerSingleton,
@@ -13,6 +14,11 @@ import {
 const app = express();
 const port = parseInt(process.env.PORT);
 
+app.use(
+	cors({
+		origin: '*',
+	})
+);
 app.use(express.json());
 app.use('/message', messageRouter);
 const server = app.listen(port, () => {
