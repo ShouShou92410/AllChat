@@ -19,8 +19,6 @@ const server = app.listen(port, () => {
 	console.log(`Express server running on port ${port}.`);
 });
 
-// server.maxConnections = 1;
-
 server.on('upgrade', async (req, socket) => {
 	// If server already has too many connections
 	if (WebSocketServerSingleton.getInstance().clients.size >= MAX_WEBSOCKET_CONNECTION) {

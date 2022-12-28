@@ -22,8 +22,8 @@ const putMessage = async (from: string, message: string): Promise<Message> => {
 	return result;
 };
 
-const fetchMessage = async (limit: number, last: string) =>
-	await messageDB.fetch(null, { limit: limit, last: last });
+const fetchMessage = (limit: number, last: string) =>
+	messageDB.fetch(null, { limit: limit, last: last });
 
 const putClient = async (ip: string, salt: string): Promise<Client> => {
 	const newClient: Client = {

@@ -4,18 +4,9 @@ import crypto from 'crypto';
 import { uniqueNamesGenerator, adjectives, colors, animals, Config } from 'unique-names-generator';
 import { putMessage, putClient, getClient } from '../deta/database.js';
 import { WebSocketServerSingleton } from './WebSocketServerSingleton.js';
+import type { IChatPayload } from './WebSocketServerSingleton.js';
 
 const CHAT_CD = 10000; //10 sec
-
-export interface InboundPayload {
-	message: string;
-}
-
-export interface OutboundPayload {
-	timestamp: number;
-	from: string;
-	message: string;
-}
 
 export const WebSocketSetup = async (ws: WebSocket, req: IncomingMessage) => {
 	ws.isAlive = true;
@@ -59,11 +50,11 @@ async function onMessage(this: WebSocket, data: RawData) {
 	}
 
 	// Process client message
-	const inPayload: InboundPayload = JSON.parse(data.toString());
+	const inPayload: IChatPayload = JSON.parse(data.toString());
 	const clientMessage = await putMessage(this.name, inPayload.message);
 	this.lastMessageTimestamp = clientMessage.timestamp;
 
-	const outPayload: OutboundPayload = {
+	const outPayload: IChatPayload = {
 		timestamp: clientMessage.timestamp,
 		from: this.name,
 		message: clientMessage.message,
