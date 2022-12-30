@@ -23,7 +23,7 @@ const MessageInput = () => {
 	};
 
 	// WS
-	const { isConnected, data, send } = useContext(WebSocketContext);
+	const { send } = useContext(WebSocketContext);
 
 	return (
 		<form ref={formElement} onSubmit={handleSubmit} className="rounded-lg mr-3 mb-2">
