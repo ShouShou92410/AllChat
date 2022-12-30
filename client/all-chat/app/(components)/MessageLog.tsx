@@ -6,15 +6,16 @@ import MessageItem from './MessageItem';
 
 const MessageLog = () => {
 	// Message history
-	const { data, isLoading, fetchMessage } = useGetMessage();
+	const { data, error, isLoading, fetchMessage } = useGetMessage();
 	useEffect(() => {
 		fetchMessage();
 	}, []);
 	useEffect(() => {
+		if (error) throw new Error('Failed to fetch data');
 		if (data && !isLoading) {
 			setMessages([...messages, ...data]);
 		}
-	}, [data, isLoading]);
+	}, [data, error, isLoading]);
 	const handleScroll = (e) => {
 		const scrollPosition = e.target.scrollHeight + e.target.scrollTop - e.target.clientHeight; // Because of flex-col-reverse, scrollTop is negative
 
@@ -56,27 +57,29 @@ const useGetMessage = () => {
 	const [last, setLast] = useState('');
 
 	const [data, setData] = useState<any>(null);
+	const [error, setError] = useState<any>(null);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const fetchMessage = useCallback(async () => {
 		if (last !== undefined) {
 			setIsLoading(true);
 			setData(null);
+			setError(null);
 
 			const res = await fetch(`http://localhost:3001/message?limit=${limit}&last=${last}`);
 
 			if (!res.ok) {
-				// This will activate the closest `error.js` Error Boundary
-				throw new Error('Failed to fetch data');
+				setError('Failed to fetch data');
+			} else {
+				const result = await res.json();
+
+				setLast(result.last);
+				setData(result.items);
 			}
 
-			const result = await res.json();
-
-			setLast(result.last);
-			setData(result.items);
 			setIsLoading(false);
 		}
 	}, [limit, last]);
 
-	return { data, isLoading, fetchMessage };
+	return { data, error, isLoading, fetchMessage };
 };

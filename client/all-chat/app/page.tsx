@@ -4,9 +4,9 @@ import styles from './(styles)/styles.module.css';
 
 export default function Page() {
 	return (
-		<main className="flex flex-col justify-end min-h-screen max-h-screen w-3/5 m-auto px-3 bg-slate-100 dark:bg-slate-800">
+		<div className="flex flex-col justify-end h-screen px-3">
 			<MessageLog />
 			<MessageInput />
-		</main>
+		</div>
 	);
 }

@@ -6,15 +6,15 @@ interface IProps {
 const MessageItem = ({ timestamp, from, message }: IProps) => {
 	const date = new Date(timestamp);
 	return (
-		<div className="flex flex-row gap-x-3 pr-5 dark:text-slate-300">
+		<div className="flex flex-row gap-x-3 pr-5">
 			<img
 				className="w-16 h-16 rounded-full"
 				src={`https://avatars.dicebear.com/api/identicon/${from}.svg`}
 				alt="avatar"
 			/>
 			<div>
-				<p className="text-sm">
-					<span className="text-xl font-semibold pr-2 dark:text-slate-100">{from}</span>
+				<p className="text-xs">
+					<span className="text-xl font-semibold pr-2">{from}</span>
 					{date.toLocaleString()}
 				</p>
 				<p>{message}</p>
