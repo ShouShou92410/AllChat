@@ -31,7 +31,9 @@ const WebsocketProvider = ({ children }: IProps) => {
 		const socket = new WebSocket('ws://localhost:3001');
 
 		socket.onopen = () => {
-			setIsConnected(true);
+			setTimeout(() => {
+				setIsConnected(true);
+			}, 5000);
 		};
 		socket.onclose = () => {
 			setIsConnected(false);
