@@ -16,7 +16,7 @@ const MessageLog = () => {
 		setLimit(newLimit);
 	}, []);
 	useEffect(() => {
-		if (error) throw new Error('Failed to fetch data');
+		if (error) throw new Error(error);
 		if (data && !isLoading) {
 			setMessages([...messages, ...data]);
 		}
@@ -29,8 +29,9 @@ const MessageLog = () => {
 			divElement.current!.scrollTop = -divElement.current!.scrollHeight; // Move scroll to the top to show message skeleton while loading
 		}
 	}, [isLoading]);
-	const handleScroll = (e) => {
-		const scrollPosition = e.target.scrollHeight + e.target.scrollTop - e.target.clientHeight; // Because of flex-col-reverse, scrollTop is negative
+	const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+		const scrollPosition =
+			e.currentTarget.scrollHeight + e.currentTarget.scrollTop - e.currentTarget.clientHeight; // Because of flex-col-reverse, scrollTop is negative
 
 		if (scrollPosition === 0) {
 			fetchMessage(limit);

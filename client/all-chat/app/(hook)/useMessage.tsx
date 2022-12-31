@@ -1,10 +1,11 @@
 import { useCallback, useState } from 'react';
+import { IChatPayload } from '../(context)/WebSocketContext';
 
 const useMessage = () => {
 	const [last, setLast] = useState('');
 
-	const [data, setData] = useState<any>(null);
-	const [error, setError] = useState<any>(null);
+	const [data, setData] = useState<IChatPayload[] | null>(null);
+	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const fetchMessage = useCallback(
@@ -20,7 +21,7 @@ const useMessage = () => {
 
 				setTimeout(async () => {
 					if (!res.ok) {
-						setError('Failed to fetch data');
+						setError('Something went wrong');
 					} else {
 						const result = await res.json();
 

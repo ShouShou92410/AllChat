@@ -1,12 +1,12 @@
 'use client';
 
-import { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { WebSocketContext } from '../(context)/WebSocketContext';
 
 const MessageInput = () => {
 	// Form
 	const formElement = useRef<HTMLFormElement>(null);
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log('submit', messageValue);
 		send!(JSON.stringify({ message: messageValue }));
@@ -14,9 +14,10 @@ const MessageInput = () => {
 
 	// Textarea
 	const [messageValue, setMessageValue] = useState('');
-	const handleChange = (e) => setMessageValue(e.target.value);
-	const handleKeyDown = (e) => {
-		if (e.keyCode === 13 && !e.shiftKey) {
+	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+		setMessageValue(e.target.value);
+	const handleKeyDown = (e: React.KeyboardEvent) => {
+		if (e.key === 'Enter' && !e.shiftKey) {
 			e.preventDefault();
 			formElement.current?.requestSubmit();
 		}
