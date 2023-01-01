@@ -40,7 +40,6 @@ export class WebSocketServerSingleton extends WebSocketServer {
 			data: payload,
 		};
 		this.clients.forEach((client: WebSocket) => {
-			res.type = payload.from === client.name ? 'self' : 'client';
 			if (client.readyState === WebSocket.OPEN) client.send(JSON.stringify(res));
 		});
 	}
@@ -64,19 +63,17 @@ export class WebSocketServerSingleton extends WebSocketServer {
  * setup: Contains the initial setup information
  * server: Contains varies server messages
  * client: Contains messages from other clients
- * self: Contains message from self (Your own message)
  */
 type Payload = {
 	setup: ISetupPayload;
 	server: IServerPayload;
 	client: IChatPayload;
-	self: IChatPayload;
 };
 interface IPayload<T extends keyof Payload> {
 	type: T;
 	data: Payload[T];
 }
-type IPayloadUnion = IPayload<'setup'> | IPayload<'server'> | IPayload<'client'> | IPayload<'self'>;
+type IPayloadUnion = IPayload<'setup'> | IPayload<'server'> | IPayload<'client'>;
 
 interface ISetupPayload {
 	name: string;
