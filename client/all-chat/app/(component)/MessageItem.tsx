@@ -9,7 +9,7 @@ const MessageItem = ({ timestamp, from, message }: IProps) => {
 	return (
 		<div className="flex flex-row gap-x-3 pr-5">
 			<img
-				className="w-16 h-16 rounded-full"
+				className="w-16 h-16 rounded-full bg-slate-300 dark:bg-slate-900"
 				src={`https://avatars.dicebear.com/api/identicon/${from}.svg`}
 				alt="avatar"
 			/>
@@ -26,14 +26,14 @@ const MessageItem = ({ timestamp, from, message }: IProps) => {
 
 const MessageItemLoading = () => (
 	<div className="animate-pulse flex flex-row gap-x-3 pr-5">
-		<div className="w-16 h-16 rounded-full dark:bg-slate-600" />
+		<div className="w-16 h-16 rounded-full bg-slate-400 dark:bg-slate-600" />
 		<div className="flex flex-col grow space-y-4">
 			<div className="flex space-x-4">
-				<div className="w-28 h-2 bg-slate-600 rounded" />
-				<div className="w-24 h-2 bg-slate-600 rounded" />
+				<div className="w-28 h-2 rounded bg-slate-400 dark:bg-slate-600" />
+				<div className="w-24 h-2 rounded bg-slate-400 dark:bg-slate-600" />
 			</div>
-			<div className="h-2 bg-slate-600 rounded" />
-			<div className="h-2 bg-slate-600 rounded" />
+			<div className="h-2 rounded bg-slate-400 dark:bg-slate-600" />
+			<div className="h-2 rounded bg-slate-400 dark:bg-slate-600" />
 		</div>
 	</div>
 );
