@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react';
 import { IChatPayload } from '../(context)/WebSocketContext';
 
+const ERROR_MESSAGE = '😭 Something went wrong 😭';
+
 const useMessage = () => {
 	const [last, setLast] = useState('');
 
@@ -15,22 +17,26 @@ const useMessage = () => {
 				setData(null);
 				setError(null);
 
-				const res = await fetch(
-					`http://localhost:3001/message?limit=${limit}&last=${last}`
-				);
+				try {
+					const res = await fetch(
+						`http://localhost:3001/message?limit=${limit}&last=${last}`
+					);
 
-				setTimeout(async () => {
 					if (!res.ok) {
-						setError('Something went wrong');
-					} else {
-						const result = await res.json();
-
-						setLast(result.last);
-						setData(result.items);
+						setError(ERROR_MESSAGE);
+						return;
 					}
+					const result = await res.json();
 
-					setIsLoading(false);
-				}, 5000);
+					setLast(result.last);
+					setData(result.items);
+				} catch (error) {
+					setError(ERROR_MESSAGE);
+				} finally {
+					setTimeout(async () => {
+						setIsLoading(false);
+					}, 5000);
+				}
 			}
 		},
 		[last]

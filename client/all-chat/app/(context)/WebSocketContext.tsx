@@ -7,16 +7,19 @@ interface IChatSession {
 	name: string | null;
 	isConnected: boolean;
 	payload: IPayloadUnion | null;
+	error: string | null;
 	send: ((data: string | ArrayBufferLike | Blob | ArrayBufferView) => void) | undefined;
 }
 const WebSocketContext = createContext<IChatSession>({
 	name: null,
 	isConnected: false,
 	payload: null,
+	error: null,
 	send: () => {},
 });
 
 // Context provider
+const ERROR_MESSAGE = '🚫 Sorry, but you cannot chat at the moment. 🚫';
 interface IProps {
 	children: React.ReactNode;
 }
@@ -24,6 +27,7 @@ const WebsocketProvider = ({ children }: IProps) => {
 	const [name, setName] = useState<string | null>(null);
 	const [isConnected, setIsConnected] = useState(false);
 	const [payload, setPayload] = useState<IPayloadUnion | null>(null);
+	const [error, setError] = useState<string | null>(ERROR_MESSAGE);
 
 	const ws = useRef<WebSocket | null>(null);
 
@@ -33,13 +37,16 @@ const WebsocketProvider = ({ children }: IProps) => {
 		socket.onopen = () => {
 			setTimeout(() => {
 				setIsConnected(true);
+				setError(null);
 			}, 5000);
 		};
 		socket.onclose = () => {
 			setIsConnected(false);
+			setError(ERROR_MESSAGE);
 		};
 		socket.onerror = () => {
 			setIsConnected(false);
+			setError(ERROR_MESSAGE);
 		};
 		socket.onmessage = (e) => {
 			const res: IPayloadUnion = JSON.parse(e.data);
@@ -49,7 +56,6 @@ const WebsocketProvider = ({ children }: IProps) => {
 					setName(res.data.name);
 				case 'server':
 				case 'client':
-				case 'self':
 					setPayload(res);
 			}
 
@@ -69,6 +75,7 @@ const WebsocketProvider = ({ children }: IProps) => {
 				name: name,
 				isConnected: isConnected,
 				payload: payload,
+				error: error,
 				send: ws.current?.send.bind(ws.current),
 			}}
 		>
@@ -83,19 +90,17 @@ export { WebSocketContext, WebsocketProvider };
  * setup: Contains the initial setup information
  * server: Contains varies server messages
  * client: Contains messages from other clients
- * self: Contains message from self (Your own message)
  */
 type Payload = {
 	setup: ISetupPayload;
 	server: IServerPayload;
 	client: IChatPayload;
-	self: IChatPayload;
 };
 interface IPayload<T extends keyof Payload> {
 	type: T;
 	data: Payload[T];
 }
-type IPayloadUnion = IPayload<'setup'> | IPayload<'server'> | IPayload<'client'> | IPayload<'self'>;
+type IPayloadUnion = IPayload<'setup'> | IPayload<'server'> | IPayload<'client'>;
 
 interface ISetupPayload {
 	name: string;
