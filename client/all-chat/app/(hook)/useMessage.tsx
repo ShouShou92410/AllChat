@@ -35,7 +35,7 @@ const useMessage = () => {
 				} finally {
 					setTimeout(async () => {
 						setIsLoading(false);
-					}, 5000);
+					}, 1000);
 				}
 			}
 		},
