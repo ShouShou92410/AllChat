@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import { uniqueNamesGenerator, adjectives, colors, animals, Config } from 'unique-names-generator';
 import { putMessage, putClient, getClient } from '../deta/database.js';
 import { WebSocketServerSingleton } from './WebSocketServerSingleton.js';
-import type { IChatPayload } from './WebSocketServerSingleton.js';
+import type { IPayload, IChatPayload, IServerPayload } from './WebSocketServerSingleton.js';
 
 const CHAT_CD = 10000; //10 sec
 
@@ -34,11 +34,20 @@ export const WebSocketSetup = async (ws: WebSocket, req: IncomingMessage) => {
 	ws.on('pong', onPong);
 
 	console.log(`${ws.name} has connected.`);
+	const payload: IServerPayload = {
+		message: `${ws.name} has connected.`,
+	};
+	WebSocketServerSingleton.getInstance().broadcast('server', payload);
 };
 
 async function onClose(this: WebSocket) {
 	await putClient(this.ip, this.salt);
 	console.log(`${this.name} has disconnected.`);
+
+	const payload: IServerPayload = {
+		message: `${this.name} has disconnected.`,
+	};
+	WebSocketServerSingleton.getInstance().broadcast('server', payload);
 }
 
 async function onMessage(this: WebSocket, data: RawData) {
@@ -46,7 +55,14 @@ async function onMessage(this: WebSocket, data: RawData) {
 	const messageCooldown = Date.now() - this.lastMessageTimestamp;
 	if (messageCooldown < CHAT_CD) {
 		const secondsLeft = ((CHAT_CD - messageCooldown) / 1000).toFixed(2);
-		return this.send(`Please wait ${secondsLeft} seconds before sending another message.`);
+
+		const res: IPayload<'server'> = {
+			type: 'server',
+			data: {
+				message: `Please wait ${secondsLeft} seconds before sending another message.`,
+			},
+		};
+		return this.send(JSON.stringify(res));
 	}
 
 	// Process client message
@@ -59,7 +75,7 @@ async function onMessage(this: WebSocket, data: RawData) {
 		from: this.name,
 		message: clientMessage.message,
 	};
-	WebSocketServerSingleton.getInstance().broadcast(outPayload);
+	WebSocketServerSingleton.getInstance().broadcast('client', outPayload);
 }
 
 function onPong(this: WebSocket) {

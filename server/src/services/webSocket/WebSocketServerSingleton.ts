@@ -34,9 +34,9 @@ export class WebSocketServerSingleton extends WebSocketServer {
 		return this.#instance;
 	}
 
-	broadcast(payload: IChatPayload) {
-		let res: IPayloadUnion = {
-			type: 'client',
+	broadcast(type: keyof Omit<Payload, 'setup'>, payload: IServerPayload | IChatPayload) {
+		const res = {
+			type: type,
 			data: payload,
 		};
 		this.clients.forEach((client: WebSocket) => {
@@ -87,4 +87,4 @@ interface IChatPayload {
 	message: string;
 }
 
-export type { ISetupPayload, IServerPayload, IChatPayload };
+export type { IPayload, ISetupPayload, IServerPayload, IChatPayload };
