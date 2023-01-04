@@ -9,25 +9,27 @@ const SNACKBAR_TIMER = 3000; // 3 sec
 const ServerNotification = () => {
 	// WS
 	const { isConnected, payload } = useContext(WebSocketContext);
-	const [serverMessage, setServerMessage] = useState<string | null>(null);
+	const [serverMessage, setServerMessage] = useState<string[]>([]);
 	useEffect(() => {
 		if (isConnected) {
 			if (payload?.type === 'server') {
-				setServerMessage(payload.data.message);
+				setServerMessage([...serverMessage, payload.data.message]);
 				console.log(payload);
 			}
 		}
 	}, [payload]);
 
-	Snackbar;
+	// Snackbar
 	const [show, setShow] = useState(false);
 	useEffect(() => {
-		if (serverMessage) {
+		if (serverMessage.length > 0) {
 			setShow(true);
 
 			setTimeout(() => {
 				setShow(false);
-				setServerMessage(null);
+
+				const [_, ...rest] = serverMessage; // Remove first item, which has already shown
+				setServerMessage([...rest]);
 			}, SNACKBAR_TIMER);
 		}
 	}, [serverMessage]);
@@ -38,7 +40,7 @@ const ServerNotification = () => {
 				show ? 'translate-y-3' : 'translate-y-[-100px]'
 			}`}
 		>
-			<Snackbar message={serverMessage} />
+			<Snackbar message={serverMessage[0]} />
 		</div>
 	);
 };
