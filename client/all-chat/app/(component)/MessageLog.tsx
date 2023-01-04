@@ -27,14 +27,18 @@ const MessageLog = () => {
 	const divElement = useRef<HTMLDivElement>(null);
 	useEffect(() => {
 		if (isLoading) {
-			divElement.current!.scrollTop = -divElement.current!.scrollHeight; // Move scroll to the top to show message skeleton while loading
+			// Move scroll to the top to show message skeleton while loading
+			divElement.current!.scrollTo({
+				top: -divElement.current!.scrollHeight,
+				behavior: 'smooth',
+			});
 		}
 	}, [isLoading]);
 	const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
 		const scrollPosition =
 			e.currentTarget.scrollHeight + e.currentTarget.scrollTop - e.currentTarget.clientHeight; // Because of flex-col-reverse, scrollTop is negative
 
-		if (scrollPosition === 0) {
+		if (!isLoading && scrollPosition === 0) {
 			fetchMessage(limit);
 		}
 	};
