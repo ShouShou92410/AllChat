@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { IChatPayload, WebSocketContext } from '../(context)/WebSocketContext';
 import useMessage from '../(hook)/useMessage';
+import JumpToLatest from './JumpToLatest';
 import { MessageItem, MessageItemLoading } from './MessageItem';
 
 const MessageLog = () => {
@@ -68,6 +69,7 @@ const MessageLog = () => {
 					<MessageItemLoading />
 				</>
 			)}
+			{true && <JumpToLatest />}
 		</div>
 	);
 };

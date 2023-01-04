@@ -2,7 +2,6 @@
 
 import { useContext, useEffect, useState } from 'react';
 import { WebSocketContext } from '../(context)/WebSocketContext';
-import Snackbar from './Snackbar';
 
 const SNACKBAR_TIMER = 3000; // 3 sec
 
@@ -40,7 +39,9 @@ const ServerNotification = () => {
 				show ? 'translate-y-3' : 'translate-y-[-100px]'
 			}`}
 		>
-			<Snackbar message={serverMessage[0]} />
+			<div className="z-50 h-14 rounded-md drop-shadow flex grow items-center p-3 bg-slate-300 dark:bg-slate-600">
+				<p className="w-full text-center">{serverMessage[0]}</p>
+			</div>
 		</div>
 	);
 };
