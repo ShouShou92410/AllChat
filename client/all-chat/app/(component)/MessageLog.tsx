@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
-import { useContext, useEffect, useState } from 'react';
+import React, { useRef, useContext, useEffect, useState } from 'react';
 import { IChatPayload, WebSocketContext } from '../(context)/WebSocketContext';
 import useMessage from '../(hook)/useMessage';
 import JumpToLatest from './JumpToLatest';
@@ -24,12 +23,12 @@ const MessageLog = () => {
 	}, [data, error, isLoading]);
 
 	// Scroll
-	const divElement = useRef<HTMLDivElement>(null);
+	const messageLogDiv = useRef<HTMLDivElement>(null);
 	useEffect(() => {
 		if (isLoading) {
 			// Move scroll to the top to show message skeleton while loading
-			divElement.current!.scrollTo({
-				top: -divElement.current!.scrollHeight,
+			messageLogDiv.current!.scrollTo({
+				top: -messageLogDiv.current!.scrollHeight,
 				behavior: 'smooth',
 			});
 		}
@@ -57,7 +56,7 @@ const MessageLog = () => {
 
 	return (
 		<div
-			ref={divElement}
+			ref={messageLogDiv}
 			onScroll={handleScroll}
 			className="flex flex-col-reverse gap-y-10 py-5 overflow-y-auto"
 		>
@@ -73,7 +72,7 @@ const MessageLog = () => {
 					<MessageItemLoading />
 				</>
 			)}
-			{true && <JumpToLatest />}
+			<JumpToLatest messageLogDiv={messageLogDiv.current} />
 		</div>
 	);
 };
