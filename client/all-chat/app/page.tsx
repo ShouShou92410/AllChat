@@ -1,6 +1,5 @@
 import MessageInput from './(component)/MessageInput';
 import MessageLog from './(component)/MessageLog';
-import styles from './(styles)/styles.module.css';
 
 export default function Page() {
 	return (
