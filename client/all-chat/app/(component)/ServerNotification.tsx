@@ -12,9 +12,8 @@ const ServerNotification = () => {
 	useEffect(() => {
 		if (isConnected && payload?.type === 'server') {
 			setServerMessage([...serverMessage, payload.data.message]);
-			console.log(payload);
 		}
-	}, [payload]);
+	}, [isConnected, payload]);
 
 	// Snackbar
 	const [show, setShow] = useState(false);

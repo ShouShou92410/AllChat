@@ -48,9 +48,8 @@ const MessageLog = () => {
 	useEffect(() => {
 		if (isConnected && payload?.type === 'client') {
 			setMessages([payload.data, ...messages]);
-			console.log(payload);
 		}
-	}, [payload]);
+	}, [isConnected, payload]);
 
 	return (
 		<div

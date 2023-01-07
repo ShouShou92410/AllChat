@@ -65,8 +65,18 @@ async function onMessage(this: WebSocket, data: RawData) {
 		return this.send(JSON.stringify(res));
 	}
 
-	// Process client message
 	const inPayload: IChatPayload = JSON.parse(data.toString());
+
+	// Prevent empty message
+	if (inPayload.message.replace(/\n|\s/g, '') === '') {
+		const res: IPayload<'server'> = {
+			type: 'server',
+			data: { message: `Message cannot be empty.` },
+		};
+		return this.send(JSON.stringify(res));
+	}
+
+	// Process client message
 	const clientMessage = await putMessage(this.name, inPayload.message);
 	this.lastMessageTimestamp = clientMessage.timestamp;
 

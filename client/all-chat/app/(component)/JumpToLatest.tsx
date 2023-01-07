@@ -25,15 +25,11 @@ const JumpToLatest = ({ messageLogDiv }: IProps) => {
 	// WS
 	const { isConnected, payload } = useContext(WebSocketContext);
 	useEffect(() => {
-		if (isConnected) {
-			if (payload?.type === 'client') {
-				// New message came && not at the bottom of the message log
-				if (messageLogDiv?.scrollTop !== 0) {
-					setShow(true);
-				}
-			}
+		// New message came && not at the bottom of the message log
+		if (isConnected && payload?.type === 'client' && messageLogDiv?.scrollTop !== 0) {
+			setShow(true);
 		}
-	}, [payload]);
+	}, [isConnected, payload]);
 
 	if (!show) return <></>;
 	return (

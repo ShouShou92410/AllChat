@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { WebSocketContext } from '../(context)/WebSocketContext';
 
 const MessageInput = () => {
@@ -8,8 +8,11 @@ const MessageInput = () => {
 	const formElement = useRef<HTMLFormElement>(null);
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('submit', messageValue);
-		send!(JSON.stringify({ message: messageValue }));
+
+		// Prevent empty message
+		if (send && messageValue.replace(/\n|\s/g, '') !== '') {
+			send(JSON.stringify({ message: messageValue }));
+		}
 	};
 
 	// Textarea
@@ -24,7 +27,13 @@ const MessageInput = () => {
 	};
 
 	// WS
-	const { isConnected, error, send } = useContext(WebSocketContext);
+	const { isConnected, name, payload, error, send } = useContext(WebSocketContext);
+	useEffect(() => {
+		// If submitted message made it through, clear the input textarea
+		if (isConnected && payload?.type === 'client' && payload.data.from === name) {
+			setMessageValue('');
+		}
+	}, [isConnected, payload]);
 
 	return (
 		<form ref={formElement} onSubmit={handleSubmit} className="rounded-lg mr-3 mb-2">

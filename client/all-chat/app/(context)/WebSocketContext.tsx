@@ -58,8 +58,6 @@ const WebsocketProvider = ({ children }: IProps) => {
 				case 'client':
 					setPayload(res);
 			}
-
-			console.log(res);
 		};
 
 		ws.current = socket;
