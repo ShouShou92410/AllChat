@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useRef, useContext, useEffect, useState } from 'react';
-import { IChatPayload, WebSocketContext } from '../(context)/WebSocketContext';
+import { WebSocketContext } from '../(context)/WebSocketContext';
+import type { IChatPayload } from '../(context)/WebSocketContext';
 import useMessage from '../(hook)/useMessage';
 import JumpToLatest from './JumpToLatest';
 import { MessageItem, MessageItemLoading } from './MessageItem';
@@ -58,9 +59,7 @@ const MessageLog = () => {
 			className="flex flex-col-reverse gap-y-10 py-5 overflow-y-auto overflow-x-hidden"
 		>
 			{messages.map((message: IChatPayload) => (
-				<div key={message.timestamp}>
-					<MessageItem {...message} />
-				</div>
+				<MessageItem key={message.timestamp} chatPayload={message} />
 			))}
 			{isLoading && (
 				<>

@@ -1,24 +1,24 @@
+import type { IChatPayload } from '../(context)/WebSocketContext';
+
 interface IProps {
-	timestamp: number;
-	from: string;
-	message: string;
+	chatPayload: IChatPayload;
 }
-const MessageItem = ({ timestamp, from, message }: IProps) => {
-	const date = new Date(timestamp);
+const MessageItem = ({ chatPayload }: IProps) => {
+	const date = new Date(chatPayload.timestamp);
 
 	return (
 		<div className="flex flex-row gap-x-3 pr-5">
 			<img
 				className="w-16 h-16 rounded-full bg-slate-300 dark:bg-slate-900"
-				src={`https://avatars.dicebear.com/api/identicon/${from}.svg`}
+				src={`https://avatars.dicebear.com/api/identicon/${chatPayload.from}.svg`}
 				alt="avatar"
 			/>
 			<div>
 				<p className="text-xs">
-					<span className="text-xl font-semibold pr-2">{from}</span>
+					<span className="text-xl font-semibold pr-2">{chatPayload.from}</span>
 					{date.toLocaleString()}
 				</p>
-				<p>{message}</p>
+				<p>{chatPayload.message}</p>
 			</div>
 		</div>
 	);
