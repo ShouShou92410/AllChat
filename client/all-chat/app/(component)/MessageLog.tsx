@@ -46,11 +46,9 @@ const MessageLog = () => {
 	const { isConnected, payload } = useContext(WebSocketContext);
 	const [messages, setMessages] = useState<IChatPayload[]>([]);
 	useEffect(() => {
-		if (isConnected) {
-			if (payload?.type === 'client') {
-				setMessages([payload.data, ...messages]);
-				console.log(payload);
-			}
+		if (isConnected && payload?.type === 'client') {
+			setMessages([payload.data, ...messages]);
+			console.log(payload);
 		}
 	}, [payload]);
 

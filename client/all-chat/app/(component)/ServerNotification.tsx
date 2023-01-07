@@ -10,11 +10,9 @@ const ServerNotification = () => {
 	const { isConnected, payload } = useContext(WebSocketContext);
 	const [serverMessage, setServerMessage] = useState<string[]>([]);
 	useEffect(() => {
-		if (isConnected) {
-			if (payload?.type === 'server') {
-				setServerMessage([...serverMessage, payload.data.message]);
-				console.log(payload);
-			}
+		if (isConnected && payload?.type === 'server') {
+			setServerMessage([...serverMessage, payload.data.message]);
+			console.log(payload);
 		}
 	}, [payload]);
 
@@ -36,7 +34,7 @@ const ServerNotification = () => {
 	return (
 		<div
 			className={`absolute left-0 right-0 m-auto w-2/5 transition duration-500 ease-in-out ${
-				show ? 'translate-y-3' : 'translate-y-[-100px]'
+				show ? 'translate-y-14' : 'translate-y-[-100px]'
 			}`}
 		>
 			<div className="z-50 h-14 rounded-md drop-shadow flex grow items-center p-3 bg-slate-300 dark:bg-slate-600">
