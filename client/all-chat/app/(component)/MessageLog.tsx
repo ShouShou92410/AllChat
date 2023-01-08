@@ -68,7 +68,7 @@ const MessageLog = () => {
 					<MessageItemLoading />
 				</>
 			)}
-			<JumpToLatest messageLogDiv={messageLogDiv.current} />
+			{messageLogDiv.current && <JumpToLatest messageLogDiv={messageLogDiv.current} />}
 		</div>
 	);
 };

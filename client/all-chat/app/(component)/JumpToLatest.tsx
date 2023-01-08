@@ -4,18 +4,23 @@ import React, { useContext, useEffect, useState } from 'react';
 import { WebSocketContext } from '../(context)/WebSocketContext';
 
 interface IProps {
-	messageLogDiv: HTMLDivElement | null;
+	messageLogDiv: HTMLDivElement;
 }
 const JumpToLatest = ({ messageLogDiv }: IProps) => {
 	const [show, setShow] = useState(false);
 
 	useEffect(() => {
-		messageLogDiv?.addEventListener('scroll', function (this: HTMLDivElement) {
+		function handleScroll(this: HTMLDivElement) {
 			// Hides when scroll is at the bottom of the message log
 			if (this.scrollTop === 0) {
 				setShow(false);
 			}
-		});
+		}
+		messageLogDiv.addEventListener('scroll', handleScroll);
+
+		return () => {
+			messageLogDiv.removeEventListener('scroll', handleScroll);
+		};
 	}, []);
 
 	const handleClick = (e: React.UIEvent<HTMLButtonElement>) => {
@@ -34,7 +39,7 @@ const JumpToLatest = ({ messageLogDiv }: IProps) => {
 	if (!show) return <></>;
 	return (
 		<button className={`absolute left-1/2 animate-bounce`} onClick={handleClick}>
-			<div className="z-50 h-10 w-10 rounded-full drop-shadow flex grow items-center p-3 bg-slate-300 dark:bg-sky-700">
+			<div className="z-50 h-10 w-10 rounded-full drop-shadow flex grow items-center p-3 bg-sky-300 dark:bg-sky-700">
 				<p className="w-full text-center">↓</p>
 			</div>
 		</button>
