@@ -3,13 +3,14 @@ import './(styles)/globals.css';
 import { WebsocketProvider } from './(context)/WebSocketContext';
 import ServerNotification from './(component)/ServerNotification';
 import Navbar from './(component)/Navbar';
+import { ThemeProvider } from './(context)/ThemeContext';
 
 interface IProps {
 	children: React.ReactNode;
 }
 export default function RootLayout({ children }: IProps) {
 	return (
-		<html lang="en" className="dark">
+		<ThemeProvider>
 			<head />
 			<body className="min-h-screen bg-slate-300 dark:bg-slate-900 dark:text-slate-300">
 				<WebsocketProvider>
@@ -20,6 +21,6 @@ export default function RootLayout({ children }: IProps) {
 					</main>
 				</WebsocketProvider>
 			</body>
-		</html>
+		</ThemeProvider>
 	);
 }

@@ -3,14 +3,14 @@
 import { createContext, useEffect, useRef, useState } from 'react';
 
 // Context
-interface IChatSession {
+interface IWebSocketContext {
 	name: string | null;
 	isConnected: boolean;
 	payload: IPayloadUnion | null;
 	error: string | null;
 	send: ((data: string | ArrayBufferLike | Blob | ArrayBufferView) => void) | undefined;
 }
-const WebSocketContext = createContext<IChatSession>({
+const WebSocketContext = createContext<IWebSocketContext>({
 	name: null,
 	isConnected: false,
 	payload: null,
