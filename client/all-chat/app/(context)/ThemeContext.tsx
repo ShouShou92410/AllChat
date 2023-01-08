@@ -18,9 +18,14 @@ interface IProps {
 	children: React.ReactNode;
 }
 const ThemeProvider = ({ children }: IProps) => {
-	const [theme, setTheme] = useState<Theme>('dark');
+	const [theme, setTheme] = useState<Theme>(
+		localStorage.getItem('AllChat-theme') === 'light' ? 'light' : 'dark'
+	);
+
 	const themeToggle = () => {
-		setTheme(theme === 'light' ? 'dark' : 'light');
+		const newTheme = theme === 'light' ? 'dark' : 'light';
+		setTheme(newTheme);
+		localStorage.setItem('AllChat-theme', newTheme);
 	};
 
 	return (
