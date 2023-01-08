@@ -12,7 +12,7 @@ export default function RootLayout({ children }: IProps) {
 	return (
 		<ThemeProvider>
 			<head />
-			<body className="min-h-screen bg-slate-300 dark:bg-slate-900 dark:text-slate-300">
+			<body className="min-h-screen bg-slate-200 dark:bg-slate-900 dark:text-slate-300">
 				<WebsocketProvider>
 					<ServerNotification />
 					<Navbar />

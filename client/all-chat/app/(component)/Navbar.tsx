@@ -14,7 +14,7 @@ const Navbar = ({}: IProps) => {
 	const { name, isConnected } = useContext(WebSocketContext);
 
 	return (
-		<nav className="absolute w-screen h-12 drop-shadow dark:bg-slate-900">
+		<nav className="absolute w-screen h-12 drop-shadow bg-slate-200 dark:bg-slate-900">
 			<div className="flex h-full w-3/5 justify-between items-center m-auto p-4">
 				<button onClick={themeToggle}>
 					{theme === 'light' ? (

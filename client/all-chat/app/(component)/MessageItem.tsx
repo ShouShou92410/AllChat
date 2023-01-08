@@ -9,7 +9,7 @@ const MessageItem = ({ chatPayload }: IProps) => {
 	return (
 		<div className="flex flex-row gap-x-3 pr-5">
 			<img
-				className="w-16 h-16 rounded-full bg-slate-300 dark:bg-slate-900"
+				className="w-16 h-16 rounded-full bg-slate-200 dark:bg-slate-900"
 				src={`https://avatars.dicebear.com/api/identicon/${chatPayload.from}.svg`}
 				alt="avatar"
 			/>

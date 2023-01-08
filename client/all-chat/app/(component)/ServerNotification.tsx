@@ -36,7 +36,7 @@ const ServerNotification = () => {
 				show ? 'translate-y-14' : 'translate-y-[-100px]'
 			}`}
 		>
-			<div className="z-50 h-14 rounded-md drop-shadow flex grow items-center p-3 bg-slate-300 dark:bg-slate-600">
+			<div className="z-50 h-14 rounded-md drop-shadow flex grow items-center p-3 bg-slate-300 dark:bg-slate-700">
 				<p className="w-full text-center">{serverMessage[0]}</p>
 			</div>
 		</div>
