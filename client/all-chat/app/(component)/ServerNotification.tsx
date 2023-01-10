@@ -32,7 +32,7 @@ const ServerNotification = () => {
 
 	return (
 		<div
-			className={`absolute left-0 right-0 m-auto w-2/5 transition duration-500 ease-in-out ${
+			className={`absolute left-0 right-0 m-1 md:m-auto md:w-2/5 transition duration-500 ease-in-out ${
 				show ? 'translate-y-14' : 'translate-y-[-100px]'
 			}`}
 		>

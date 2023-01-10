@@ -19,7 +19,7 @@ const WebSocketContext = createContext<IWebSocketContext>({
 });
 
 // Context provider
-const ERROR_MESSAGE = '🚫 Sorry, but you cannot chat at the moment. 🚫';
+const ERROR_MESSAGE = '🚫 You cannot chat at the moment. 🚫';
 interface IProps {
 	children: React.ReactNode;
 }

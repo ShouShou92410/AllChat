@@ -16,7 +16,7 @@ export default function RootLayout({ children }: IProps) {
 				<WebsocketProvider>
 					<ServerNotification />
 					<Navbar />
-					<main className="min-h-screen max-h-screen w-3/5 m-auto bg-slate-100 dark:bg-slate-800">
+					<main className="min-h-screen max-h-screen md:w-3/5 m-auto bg-slate-100 dark:bg-slate-800">
 						{children}
 					</main>
 				</WebsocketProvider>

@@ -38,11 +38,13 @@ const JumpToLatest = ({ messageLogDiv }: IProps) => {
 
 	if (!show) return <></>;
 	return (
-		<button className={`absolute left-1/2 animate-bounce`} onClick={handleClick}>
-			<div className="z-50 h-10 w-10 rounded-full drop-shadow flex grow items-center p-3 bg-sky-300 dark:bg-sky-700">
-				<p className="w-full text-center">↓</p>
-			</div>
-		</button>
+		<div className="absolute left-0 right-0 m-auto w-10 animate-bounce">
+			<button onClick={handleClick}>
+				<div className="z-50 h-10 w-10 rounded-full drop-shadow flex grow items-center p-3 bg-sky-300 dark:bg-sky-700">
+					<p className="w-full text-center">↓</p>
+				</div>
+			</button>
+		</div>
 	);
 };
 
