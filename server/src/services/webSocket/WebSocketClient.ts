@@ -6,7 +6,7 @@ import { putMessage, putClient, getClient } from '../deta/database.js';
 import { WebSocketServerSingleton } from './WebSocketServerSingleton.js';
 import type { IPayload, IChatPayload, IServerPayload } from './WebSocketServerSingleton.js';
 
-const CHAT_CD = 10000; //10 sec
+const CHAT_CD = 10000; // 10 sec
 
 export const WebSocketSetup = async (ws: WebSocket, req: IncomingMessage) => {
 	ws.isAlive = true;

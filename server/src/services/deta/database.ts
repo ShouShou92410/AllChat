@@ -17,7 +17,6 @@ const putMessage = async (from: string, message: string): Promise<Message> => {
 
 	const res = await messageDB.put({ ...newMessage });
 	const result: Message = JSON.parse(JSON.stringify(res));
-	console.log('createMessage: ', result);
 
 	return result;
 };
@@ -34,7 +33,6 @@ const putClient = async (ip: string, salt: string): Promise<Client> => {
 
 	const res = await clientDB.put({ ...newClient });
 	const result: Client = JSON.parse(JSON.stringify(res));
-	console.log('putClient: ', result);
 
 	return result;
 };
@@ -42,7 +40,6 @@ const putClient = async (ip: string, salt: string): Promise<Client> => {
 const getClient = async (ip: string): Promise<Client> => {
 	const res = await clientDB.get(ip);
 	const result: Client = JSON.parse(JSON.stringify(res));
-	console.log('getClient: ', result);
 
 	return result;
 };
