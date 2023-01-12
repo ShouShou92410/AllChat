@@ -1,6 +1,4 @@
-console.log(`NODE_ENV=${process.env.NODE_ENV}`);
-console.log(`DETA_PROJECT_KEY=${process.env.DETA_PROJECT_KEY}`);
-console.log(`PORT=${process.env.PORT}`);
+import './config.js';
 
 import express from 'express';
 import cors from 'cors';
