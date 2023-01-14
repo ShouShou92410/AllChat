@@ -19,7 +19,7 @@ const useMessage = () => {
 
 				try {
 					const res = await fetch(
-						`http://localhost:3001/message?limit=${limit}&last=${last}`
+						`${process.env.NEXT_PUBLIC_HTTP_SERVER_URL}/message?limit=${limit}&last=${last}`
 					);
 
 					if (!res.ok) {

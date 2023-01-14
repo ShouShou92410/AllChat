@@ -32,7 +32,7 @@ const WebsocketProvider = ({ children }: IProps) => {
 	const ws = useRef<WebSocket | null>(null);
 
 	useEffect(() => {
-		const socket = new WebSocket('ws://localhost:3001');
+		const socket = new WebSocket(process.env.NEXT_PUBLIC_WS_SERVER_URL);
 
 		socket.onopen = () => {
 			setTimeout(() => {
