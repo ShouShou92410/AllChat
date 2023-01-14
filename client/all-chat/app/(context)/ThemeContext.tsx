@@ -19,7 +19,9 @@ interface IProps {
 }
 const ThemeProvider = ({ children }: IProps) => {
 	const [theme, setTheme] = useState<Theme>(
-		localStorage.getItem('AllChat-theme') === 'light' ? 'light' : 'dark'
+		typeof window !== 'undefined' && localStorage.getItem('AllChat-theme') === 'light'
+			? 'light'
+			: 'dark'
 	);
 
 	const themeToggle = () => {
