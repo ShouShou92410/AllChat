@@ -1,4 +1,4 @@
-dist
-node_modules
-config/.env.development
-config/.env.production
+*/**/dist
+*/**/node_modules
+*/**/config/.env.development
+*/**/config/.env.production
