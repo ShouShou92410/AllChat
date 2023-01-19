@@ -38,6 +38,7 @@ jobs:
                   name: AllChatServer
                   path: |
                       ./server/*
+                      !./server/node_modules
 
     deploy:
         runs-on: ubuntu-latest
