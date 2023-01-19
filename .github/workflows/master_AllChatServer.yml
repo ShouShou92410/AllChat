@@ -37,8 +37,7 @@ jobs:
               with:
                   name: AllChatServer
                   path: |
-                      .
-                      !./client
+                      ./server/*
 
     deploy:
         runs-on: ubuntu-latest
