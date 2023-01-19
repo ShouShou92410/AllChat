@@ -31,13 +31,15 @@ jobs:
               run: |
                   npm install
                   npm run build --if-present
-
+                    
+            - name: Zip all files
+              run: zip AllChat.zip ./* .next -qr
+            
             - name: Upload artifact for deployment job
               uses: actions/upload-artifact@v2
               with:
                   name: AllChat
-                  path: |
-                      .
+                  path: AllChat.zip
 
     deploy:
         runs-on: ubuntu-latest
@@ -59,4 +61,7 @@ jobs:
                   app-name: 'AllChat'
                   slot-name: 'Production'
                   publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_ALLCHAT }}
-                  package: .
+                  package: AllChat.zip
+          
+            - name: Delete zip file
+              run: rm AllChat.zip
