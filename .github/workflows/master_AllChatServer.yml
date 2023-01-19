@@ -1,21 +1,23 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - AllChatServer
+name: Build and deploy AllChatServer
 
 on:
     push:
         branches:
             - master
+        paths:
+            - server
     workflow_dispatch:
 
+defaults:
+    run:
+        working-directory: ./server
+        
 jobs:
     build:
         runs-on: ubuntu-latest
-
-        defaults:
-            run:
-                working-directory: ./server
 
         steps:
             - uses: actions/checkout@v2
@@ -33,17 +35,13 @@ jobs:
             - name: Upload artifact for deployment job
               uses: actions/upload-artifact@v2
               with:
-                  name: node-app
+                  name: AllChatServer
                   path: |
                       .
                       !./client
 
     deploy:
         runs-on: ubuntu-latest
-
-        defaults:
-            run:
-                working-directory: ./server
         needs: build
         environment:
             name: 'Production'
@@ -53,7 +51,7 @@ jobs:
             - name: Download artifact from build job
               uses: actions/download-artifact@v2
               with:
-                  name: node-app
+                  name: AllChatServer
 
             - name: 'Deploy to Azure Web App'
               id: deploy-to-webapp
