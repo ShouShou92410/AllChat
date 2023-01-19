@@ -39,7 +39,7 @@ jobs:
               uses: actions/upload-artifact@v2
               with:
                   name: AllChat
-                  path: ./AllChat.zip
+                  path: client/all-chat/AllChat.zip
 
     deploy:
         runs-on: ubuntu-latest
