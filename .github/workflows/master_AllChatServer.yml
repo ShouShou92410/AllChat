@@ -8,12 +8,12 @@ on:
         branches:
             - master
         paths:
-            - server
+            - server/**
     workflow_dispatch:
 
 defaults:
     run:
-        working-directory: ./server
+        working-directory: server
         
 jobs:
     build:
