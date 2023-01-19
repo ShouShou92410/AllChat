@@ -5,8 +5,7 @@
 	"main": "index.ts",
 	"type": "module",
 	"scripts": {
-		"dev:server": "ts-node --esm -r dotenv/config src/index.ts dotenv_config_path=./config/.env.development",
-		"dev:client": "cd client/all-chat && npm run dev",
+		"dev": "ts-node --esm -r dotenv/config src/index.ts dotenv_config_path=./config/.env.development",
 		"start:dev": "node -r dotenv/config dist/index.js dotenv_config_path=./config/.env.production",
 		"start": "node index.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
