@@ -33,7 +33,7 @@ jobs:
                   npm run build --if-present
 
             - name: Zip dist folder
-              run: cd dist && zip -r ../AllChatServer.zip *
+              run: zip -r AllChatServer.zip dist/* package.json
 
             - name: Upload artifact for deployment job
               uses: actions/upload-artifact@v2
