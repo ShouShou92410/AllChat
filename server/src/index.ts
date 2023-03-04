@@ -39,7 +39,7 @@ server.on('upgrade', async (req, socket) => {
 	// If already connected
 	let alreadyConnected = false;
 	for (const client of WebSocketServerSingleton.getInstance().clients) {
-		if (client.ip === req.socket.remoteAddress) {
+		if (client.ip === `${req.socket.remoteAddress}:${req.socket.remotePort}`) {
 			alreadyConnected = true;
 			break;
 		}

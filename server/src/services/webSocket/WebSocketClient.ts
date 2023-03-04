@@ -11,7 +11,7 @@ const CHAT_CD = 10000; // 10 sec
 export const WebSocketSetup = async (ws: WebSocket, req: IncomingMessage) => {
 	ws.isAlive = true;
 	ws.lastMessageTimestamp = 0;
-	ws.ip = req.socket.remoteAddress;
+	ws.ip = `${req.socket.remoteAddress}:${req.socket.remotePort}`;
 
 	// Check if client exists in DB
 	const client = await getClient(ws.ip);
